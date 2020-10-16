@@ -1,3 +1,5 @@
+# DO NOT USE THIS PACKAGE - INTERNAL USE ONLY
+
 # React Native Alarm Notification
 
 [![npm version](https://badge.fury.io/js/react-native-alarm-notification.svg)](https://badge.fury.io/js/react-native-alarm-notification)
