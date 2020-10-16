@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
+import android.os.Environment;
+import android.media.AudioManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +44,15 @@ class AudioInterface {
     }
 
      MediaPlayer getSingletonMedia(String soundName, String soundNames) {
-        String filePath = Environment.getExternalStorageDirectory()+"/"+soundNames;
-        player.setDataSource(filePath);
+        try {
+            this.uri = Uri.parse("file://" + soundName);
+            player = new MediaPlayer();
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            player.setDataSource(getContext(), this.uri);
+        } catch (Exception e) {
+            Log.e(TAG, "There was an error");
+        }
+
         return player;
     }
 

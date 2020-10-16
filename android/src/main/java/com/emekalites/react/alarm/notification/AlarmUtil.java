@@ -82,24 +82,29 @@ class AlarmUtil {
     private void playAlarmSound(String name, String names, boolean shouldLoop, double volume) {
         float number = (float) volume;
 
-        MediaPlayer mediaPlayer = audioInterface.getSingletonMedia(name, names);
-        mediaPlayer.setLooping(shouldLoop);
-        mediaPlayer.setVolume(number, number);
-        mediaPlayer.start();
+        try {
+            MediaPlayer mediaPlayer = audioInterface.getSingletonMedia(name, names);
+            mediaPlayer.setLooping(shouldLoop);
+            mediaPlayer.setVolume(number, number);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                try {
-                    mp.stop();
-                    mp.reset();
-                    mp.release();
-                    Log.e(TAG, "release media player");
-                } catch (Exception e) {
-                    e.printStackTrace();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    try {
+                        mp.stop();
+                        mp.reset();
+                        mp.release();
+                        Log.e(TAG, "release media player");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Something went wrong in Util.java");
+        }
     }
 
     boolean checkAlarm(ArrayList<AlarmModel> alarms, AlarmModel alarm) {
